@@ -23,6 +23,7 @@ namespace SomeShopWPF
 
             services.AddSingleton<IUserDialog, UserDialogService>();
             services.AddSingleton<IMessageBus, MessageBusService>();
+            services.AddSingleton<IDataBaseWorker, DataBaseWorkerService>();
 
             services.AddTransient(
                 s =>
