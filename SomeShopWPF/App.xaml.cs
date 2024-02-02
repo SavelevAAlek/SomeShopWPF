@@ -4,11 +4,6 @@ using SomeShopWPF.Services.Implementations;
 using SomeShopWPF.ViewModels;
 using SomeShopWPF.Views;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SomeShopWPF
@@ -26,7 +21,8 @@ namespace SomeShopWPF
             services.AddSingleton<MainWindowViewModel>();
             services.AddScoped<AuthViewModel>();
 
-            services.AddSingleton<IUserDialog, UserDialogService>();  
+            services.AddSingleton<IUserDialog, UserDialogService>();
+            services.AddSingleton<IMessageBus, MessageBusService>();
 
             services.AddTransient(
                 s =>
