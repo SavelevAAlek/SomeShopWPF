@@ -1,0 +1,1 @@
+Server=localhost\SQLEXPRESS;Database=ClientsDB;Trusted_Connection=True;
