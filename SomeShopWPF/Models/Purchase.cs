@@ -9,8 +9,8 @@ namespace SomeShopWPF.Models
     public class Purchase
     {
         public int Id { get; set; }
-        public string Email { get; set; }
+        public string ClientEmail { get; set; }
         public string Code { get; set; }
-        public string Name { get; set; }
+        public string ProductName { get; set; }
     }
 }

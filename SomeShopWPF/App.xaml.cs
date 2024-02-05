@@ -23,29 +23,28 @@ namespace SomeShopWPF
 
             services.AddSingleton<IUserDialog, UserDialogService>();
             services.AddSingleton<IMessageBus, MessageBusService>();
-            services.AddSingleton<IDataBaseWorker, DataBaseWorkerService>();
 
             services.AddTransient(
                 s =>
                 {
-                    var model = s.GetRequiredService<MainWindowViewModel>();
-                    var window = new MainWindow { DataContext = model };
+                    var model = s.GetRequiredService<AuthViewModel>();
+                    var window = new AuthWindow { DataContext = model };
                     model.DialogComplete += (_, _) => window.Close();
 
                     return window;
                 });
 
             services.AddTransient(
-            s =>
-            {
-                var scope = s.CreateScope();
-                var model = scope.ServiceProvider.GetRequiredService<AuthViewModel>();
-                var window = new AuthWindow { DataContext = model };
-                model.DialogComplete += (_, _) => window.Close();
-                window.Closed += (_, _) => scope.Dispose();
+                s =>
+                {
+                    var scope = s.CreateScope();
+                    var model = scope.ServiceProvider.GetRequiredService<MainWindowViewModel>();
+                    var window = new MainWindow { DataContext = model };
+                    model.DialogComplete += (_, _) => window.Close();
+                    window.Closed += (_, _) => scope.Dispose();
 
-                return window;
-            });
+                    return window;
+                });
 
             return services;
         }

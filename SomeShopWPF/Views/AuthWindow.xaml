@@ -12,10 +12,10 @@
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Авторизация"/>
             <TextBox Text="{Binding Username, UpdateSourceTrigger=LostFocus}"/>
-            <TextBox Text="{Binding Password}"
+            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                      FontFamily="pack://application:,,,/Resources/#password" />
             <Button Content="Войти"
-                    Command="{Binding}"/>
+                    Command="{Binding LoginCommand}"/>
         </StackPanel>
     </Grid>
 </Window>
