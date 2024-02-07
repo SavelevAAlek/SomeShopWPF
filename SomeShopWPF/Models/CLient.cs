@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SomeShopWPF.Models
 {
-    public class Client : IEnumerable<Client>
+    public class Client
     {
         public int Id { get; set; }
         public string Surname { get; set; }
@@ -28,11 +28,5 @@ namespace SomeShopWPF.Models
             Email = email;
         }
 
-        public IEnumerator<Client> GetEnumerator() => GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

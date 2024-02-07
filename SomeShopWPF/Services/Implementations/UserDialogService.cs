@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SomeShopWPF.Views;
 using System;
+using System.Windows;
 
 namespace SomeShopWPF.Services.Implementations
 {
@@ -56,6 +57,11 @@ namespace SomeShopWPF.Services.Implementations
 
             _authWindow = window;
             window.Show();
+        }
+
+        public void OpenExtraWindow(string message)
+        {
+            MessageBox.Show(message);
         }
     }
 }

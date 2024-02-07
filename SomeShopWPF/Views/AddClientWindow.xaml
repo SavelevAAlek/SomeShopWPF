@@ -43,11 +43,16 @@
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Телефон:"/>
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Email:"/>
 
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewClient.Surname}"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewClient.Name}"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NewClient.Patronymics}"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding NewClient.Phone}"/>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding NewClient.Email}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" 
+                         Text="{Binding NewClient.Surname, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" 
+                         Text="{Binding NewClient.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="2" 
+                         Text="{Binding NewClient.Patronymics, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="3" 
+                         Text="{Binding NewClient.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="4" 
+                         Text="{Binding NewClient.Email, UpdateSourceTrigger=PropertyChanged}"/>
 
             </Grid>
 
