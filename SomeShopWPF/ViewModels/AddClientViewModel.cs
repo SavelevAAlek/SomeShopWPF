@@ -4,7 +4,6 @@ using SomeShopWPF.Services;
 using SomeShopWPF.ViewModels.Base;
 using System;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 

@@ -31,7 +31,8 @@
                                 <Setter.Value>
                                     <ContextMenu>
                                         <Menu>
-                                            <MenuItem Header="Просмотреть покупки"/>
+                                            <MenuItem Header="Просмотреть покупки"
+                                                      Command="{Binding ShowPurchasesCommand}"/>
                                         </Menu>
                                     </ContextMenu>
                                 </Setter.Value>

@@ -31,14 +31,21 @@ namespace SomeShopWPF.ViewModels
 
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenAddWindowCommand { get; set; }
+        public ICommand ShowPurchasesCommand { get; set; }
 
-        public MainWindowViewModel(IUserDialog userDialog)
+        public MainWindowViewModel() { }
+        public MainWindowViewModel(IUserDialog userDialog) : this()
         {
             _userDialog = userDialog;
             SetClientTable();
             DeleteCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
             OpenAddWindowCommand = new LambdaCommand(OnOpenAddWindowCommandExecuted, CanOpenAddWindowCommandExecute);
+            ShowPurchasesCommand = new LambdaCommand(OnShowPurchasesCommandExecuted, CanShowPurchasesCommandExecute);
         }
+
+        private bool CanShowPurchasesCommandExecute() => true;
+
+        private void OnShowPurchasesCommandExecuted(object? obj) => _extraView = new PurchasesViewModel(_selectedClient);
 
         private bool CanOpenAddWindowCommandExecute() => true;
 
