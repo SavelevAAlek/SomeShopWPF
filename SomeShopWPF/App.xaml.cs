@@ -20,6 +20,7 @@ namespace SomeShopWPF
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddScoped<AuthViewModel>();
+            services.AddScoped<AddClientViewModel>();
 
             services.AddSingleton<IUserDialog, UserDialogService>();
             services.AddSingleton<IMessageBus, MessageBusService>();
@@ -27,10 +28,20 @@ namespace SomeShopWPF
             services.AddTransient(
                 s =>
                 {
+                    var scope = s.CreateScope();
                     var model = s.GetRequiredService<AuthViewModel>();
                     var window = new AuthWindow { DataContext = model };
                     model.DialogComplete += (_, _) => window.Close();
+                    window.Closed += (_, _) => scope.Dispose();
+                    return window;
+                });
 
+            services.AddTransient(
+                s =>
+                {                    
+                    var model = s.GetRequiredService<MainWindowViewModel>();
+                    var window = new MainWindow { DataContext = model };
+                    model.DialogComplete += (_, _) => window.Close();                 
                     return window;
                 });
 
@@ -38,11 +49,10 @@ namespace SomeShopWPF
                 s =>
                 {
                     var scope = s.CreateScope();
-                    var model = scope.ServiceProvider.GetRequiredService<MainWindowViewModel>();
-                    var window = new MainWindow { DataContext = model };
+                    var model = s.GetRequiredService<AddClientViewModel>();
+                    var window = new AddClientWindow { DataContext = model };
                     model.DialogComplete += (_, _) => window.Close();
                     window.Closed += (_, _) => scope.Dispose();
-
                     return window;
                 });
 

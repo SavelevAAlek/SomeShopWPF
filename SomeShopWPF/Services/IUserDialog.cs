@@ -4,5 +4,6 @@
     {
         void OpenAuthWindow();
         void OpenMainWindow();
+        void OpenAddClientWindow();
     }
 }

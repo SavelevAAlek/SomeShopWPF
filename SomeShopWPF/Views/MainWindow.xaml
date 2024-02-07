@@ -3,14 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SomeShopWPF"
+        xmlns:vm="clr-namespace:SomeShopWPF.ViewModels"
+        xmlns:l="clr-namespace:SomeShopWPF"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="550"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <GroupBox Grid.Column="0" 
@@ -21,6 +24,19 @@
                           DockPanel.Dock="Top"
                           HeadersVisibility="Column"
                           SelectedItem="{Binding SelectedClient}">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <Menu>
+                                            <MenuItem Header="Просмотреть покупки"/>
+                                        </Menu>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID"
                                             Binding="{Binding Id}"/>
@@ -43,8 +59,11 @@
                              Rows="1"
                              Margin="30,0"
                              MaxHeight="20">
+                    
                     <Button Content="Добавить"
-                            Margin="0,0,20,0"/>
+                            Margin="0,0,20,0"
+                            Command="{Binding OpenAddWindowCommand}"/>
+                    
                     <Button Content="Удалить"
                             Margin="20,0,0,0"
                             Command="{Binding DeleteCommand}"/>
@@ -54,7 +73,15 @@
             </DockPanel>
             
         </GroupBox>
-        
-        
+
+        <GridSplitter Grid.Column="1"
+                      Width="3"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"/>
+
+        <UserControl Grid.Column="2"
+                     Content="{Binding ExtraView}"/>
+
+
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SomeShopWPF.Models
 {
-    public class Client
+    public class Client : IEnumerable<Client>
     {
         public int Id { get; set; }
         public string Surname { get; set; }
@@ -16,6 +17,7 @@ namespace SomeShopWPF.Models
         public string Email { get; set; }
         public List<Purchase> Purchases { get; set; }
 
+        public Client() { }
         public Client(int id, string surname, string name, string patronymics, string phone, string email)
         {
             Id = id;
@@ -24,6 +26,13 @@ namespace SomeShopWPF.Models
             Patronymics = patronymics;
             Phone = phone;
             Email = email;
+        }
+
+        public IEnumerator<Client> GetEnumerator() => GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

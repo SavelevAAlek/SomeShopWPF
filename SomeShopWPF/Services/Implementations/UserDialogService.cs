@@ -26,6 +26,22 @@ namespace SomeShopWPF.Services.Implementations
             window.Show();
         }
 
+        private AddClientWindow? _addClientWindow;
+        public void OpenAddClientWindow()
+        {
+            if (_addClientWindow is { } window)
+            {
+                window.Show();
+                return;
+            }
+
+            window = _Services.GetRequiredService<AddClientWindow>();
+            window.Closed += (_, _) => _addClientWindow = null;
+
+            _addClientWindow = window;
+            window.Show();
+        }
+
         private AuthWindow? _authWindow;
         public void OpenAuthWindow()
         {

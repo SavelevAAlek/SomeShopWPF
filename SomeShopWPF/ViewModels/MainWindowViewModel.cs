@@ -14,22 +14,34 @@ namespace SomeShopWPF.ViewModels
 {
     public class MainWindowViewModel : DialogViewModel
     {
+        private readonly IUserDialog _userDialog;
         private string _conStr = File.ReadAllText(@"..\..\..\Resources\MSSQLcon_str.txt");
 
         private Client _selectedClient;
+
+        private ViewModel _extraView;
+
+        public ViewModel ExtraView { get => _extraView; set => Set(ref _extraView, value); }
 
         public ObservableCollection<Client> ClientsList { get; set; } = new ObservableCollection<Client>();
         public Client SelectedClient { get => _selectedClient; set => Set(ref _selectedClient, value); }
 
         public ICommand DeleteCommand { get; set; }
+        public ICommand OpenAddWindowCommand { get; set; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IUserDialog userDialog)
         {
-            DeleteCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecuted);
-            SetClientTable();            
+            DeleteCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
+            OpenAddWindowCommand = new LambdaCommand(OnOpenAddWindowCommandExecuted, CanOpenAddWindowCommandExecute);
+            SetClientTable();
+            _userDialog = userDialog;
         }
 
-        private bool CanDeleteCommandExecuted() => SelectedClient != null ? true : false;
+        private bool CanOpenAddWindowCommandExecute() => true;
+
+        private void OnOpenAddWindowCommandExecuted(object? obj) => _userDialog.OpenAddClientWindow();
+
+        private bool CanDeleteCommandExecute() => SelectedClient != null ? true : false;
 
         private void OnDeleteCommandExecuted(object? obj)
         {
