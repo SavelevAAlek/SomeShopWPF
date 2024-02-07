@@ -84,13 +84,14 @@ namespace SomeShopWPF.ViewModels
 
         private void DeleteClient(Client selectedClient)
         {
-            var query = $"DELETE FROM Clients WHERE Email = '{selectedClient.Email}'";
+            var query = $"DELETE FROM Clients WHERE Email = @email";
+            
 
             using (SqlConnection connection = new SqlConnection(_conStr))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(query, connection);
-
+                command.Parameters.Add(new SqlParameter("@email", selectedClient.Email));
                 command.ExecuteNonQuery();
             }
 

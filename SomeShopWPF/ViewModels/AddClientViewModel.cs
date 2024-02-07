@@ -37,12 +37,20 @@ namespace SomeShopWPF.ViewModels
         private void OnAddClientCommandExecuted(object? obj)
         {
             var query = "INSERT INTO Clients (Surname, \"Name\", Patronymics, Phone, Email)" +
-                $"VALUES('{_newClient.Surname}','{_newClient.Name}','{_newClient.Patronymics}','{_newClient.Phone}','{_newClient.Email}')";
+                $"VALUES (@surname, @name, @patronymics, @phone, @email)";
 
             using (SqlConnection connection = new SqlConnection(_conStr))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddRange(new SqlParameter[5]
+                {
+                    new SqlParameter("@surname", _newClient.Surname),
+                    new SqlParameter("@name", _newClient.Name),
+                    new SqlParameter("@patronymics", _newClient.Patronymics),
+                    new SqlParameter("@phone", _newClient.Phone),
+                    new SqlParameter("@email", _newClient.Email),
+                });
 
                 command.ExecuteNonQuery();
             }
