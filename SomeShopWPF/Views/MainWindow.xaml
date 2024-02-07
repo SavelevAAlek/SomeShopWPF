@@ -23,7 +23,8 @@
                           AutoGenerateColumns="False"
                           DockPanel.Dock="Top"
                           HeadersVisibility="Column"
-                          SelectedItem="{Binding SelectedClient}">
+                          SelectedItem="{Binding SelectedClient}"
+                          CanUserAddRows="False">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridRow">
                             <Setter Property="ContextMenu">

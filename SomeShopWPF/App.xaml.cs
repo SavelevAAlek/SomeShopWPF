@@ -20,7 +20,7 @@ namespace SomeShopWPF
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddScoped<AuthViewModel>();
-            services.AddScoped<AddClientViewModel>();
+            services.AddSingleton<AddClientViewModel>();
 
             services.AddSingleton<IUserDialog, UserDialogService>();
             services.AddSingleton<IMessageBus, MessageBusService>();
@@ -52,7 +52,12 @@ namespace SomeShopWPF
                     var model = s.GetRequiredService<AddClientViewModel>();
                     var window = new AddClientWindow { DataContext = model };
                     model.DialogComplete += (_, _) => window.Close();
-                    window.Closed += (_, _) => scope.Dispose();
+                    window.Closed += (_, _) =>
+                    {
+                        var m = s.GetRequiredService<MainWindowViewModel>();
+                        m.SetClientTable();
+                        scope.Dispose();
+                    };
                     return window;
                 });
 

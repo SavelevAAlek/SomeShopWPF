@@ -1,28 +1,26 @@
 ﻿using SomeShopWPF.Commands;
 using SomeShopWPF.Models;
+using SomeShopWPF.Services;
 using SomeShopWPF.ViewModels.Base;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SomeShopWPF.ViewModels
 {
     public class AddClientViewModel : DialogViewModel
     {
+        private readonly IUserDialog _userDialog;
         private string _conStr = File.ReadAllText(@"..\..\..\Resources\MSSQLcon_str.txt");
-        private Client _newClient;
+        private Client _newClient = new Client();
         public Client NewClient { get => _newClient; set => Set(ref _newClient, value); }
 
         public ICommand AddClientCommand { get; set; }
 
-        public AddClientViewModel() 
+        public AddClientViewModel(IUserDialog userDialog)
         {
-            NewClient = new Client();
+            _userDialog = userDialog;
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
         }
 
@@ -48,6 +46,10 @@ namespace SomeShopWPF.ViewModels
 
                 command.ExecuteNonQuery();
             }
+
+            OnDialogComplete(EventArgs.Empty);
+            _newClient = new Client();
         }
+
     }
 }

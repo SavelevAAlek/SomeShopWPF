@@ -23,23 +23,30 @@ namespace SomeShopWPF.ViewModels
 
         public ViewModel ExtraView { get => _extraView; set => Set(ref _extraView, value); }
 
-        public ObservableCollection<Client> ClientsList { get; set; } = new ObservableCollection<Client>();
-        public Client SelectedClient { get => _selectedClient; set => Set(ref _selectedClient, value); }
+        private ObservableCollection<Client> _clientsList;
+
+        public ObservableCollection<Client> ClientsList { get => _clientsList; set => Set(ref _clientsList, value);
+    }
+    public Client SelectedClient { get => _selectedClient; set => Set(ref _selectedClient, value); }
 
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenAddWindowCommand { get; set; }
 
         public MainWindowViewModel(IUserDialog userDialog)
         {
+            _userDialog = userDialog;
+            SetClientTable();
             DeleteCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
             OpenAddWindowCommand = new LambdaCommand(OnOpenAddWindowCommandExecuted, CanOpenAddWindowCommandExecute);
-            SetClientTable();
-            _userDialog = userDialog;
         }
 
         private bool CanOpenAddWindowCommandExecute() => true;
 
-        private void OnOpenAddWindowCommandExecuted(object? obj) => _userDialog.OpenAddClientWindow();
+        private void OnOpenAddWindowCommandExecuted(object? obj)
+        {
+            _userDialog.OpenAddClientWindow();
+        }
+
 
         private bool CanDeleteCommandExecute() => SelectedClient != null ? true : false;
 
@@ -49,7 +56,7 @@ namespace SomeShopWPF.ViewModels
             OnPropertyChanged(nameof(ClientsList));
         }
 
-        private void SetClientTable()
+        public void SetClientTable()
         {
             string query = "SELECT * FROM Clients";
 
@@ -57,7 +64,7 @@ namespace SomeShopWPF.ViewModels
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(query, connection);
-
+                _clientsList = new ObservableCollection<Client>();
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -72,6 +79,7 @@ namespace SomeShopWPF.ViewModels
                 }
             }
 
+            OnPropertyChanged(nameof(ClientsList));
         }
 
         private void DeleteClient(Client selectedClient)
