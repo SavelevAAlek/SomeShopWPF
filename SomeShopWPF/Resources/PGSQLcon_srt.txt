@@ -1,1 +1,1 @@
-"Host=localhost;Port=5432;Database=ProductsDB;Username=postgres;Password=QuiteMissHome13."
+"Host=localhost;Username=postgres;Password=QuiteMissHome13;Database=Shop"

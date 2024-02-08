@@ -1,4 +1,5 @@
-﻿using SomeShopWPF.Commands;
+﻿using Npgsql;
+using SomeShopWPF.Commands;
 using SomeShopWPF.Models;
 using SomeShopWPF.Services;
 using SomeShopWPF.ViewModels.Base;
@@ -16,22 +17,33 @@ namespace SomeShopWPF.ViewModels
     {
         private readonly IUserDialog _userDialog;
         private string _conStr = File.ReadAllText(@"..\..\..\Resources\MSSQLcon_str.txt");
+        private string _conStrPg = File.ReadAllText(@"..\..\..\Resources\PGSQLcon_srt.txt");
 
         private Client _selectedClient;
-
         private ViewModel _extraView;
 
-        public ViewModel ExtraView { get => _extraView; set => Set(ref _extraView, value); }
+
 
         private ObservableCollection<Client> _clientsList;
 
         public ObservableCollection<Client> ClientsList { get => _clientsList; set => Set(ref _clientsList, value);
     }
-    public Client SelectedClient { get => _selectedClient; set => Set(ref _selectedClient, value); }
-
+        public Client SelectedClient
+        { 
+            get => _selectedClient;
+            set
+            {
+                Set(ref _selectedClient, value); 
+                SetPurchasesTable();
+            }
+        }
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenAddWindowCommand { get; set; }
+
+        public ViewModel ExtraView { get => _extraView; set => Set(ref _extraView, value); }
         public ICommand ShowPurchasesCommand { get; set; }
+        private void OnShowPurchasesCommandExecuted(object? obj) => ExtraView = new PurchasesViewModel(_selectedClient);
+        private bool CanShowPurchasesCommandExecute() => _selectedClient != null ? true : false;
 
         public MainWindowViewModel() { }
         public MainWindowViewModel(IUserDialog userDialog) : this()
@@ -43,9 +55,7 @@ namespace SomeShopWPF.ViewModels
             ShowPurchasesCommand = new LambdaCommand(OnShowPurchasesCommandExecuted, CanShowPurchasesCommandExecute);
         }
 
-        private bool CanShowPurchasesCommandExecute() => true;
 
-        private void OnShowPurchasesCommandExecuted(object? obj) => _extraView = new PurchasesViewModel(_selectedClient);
 
         private bool CanOpenAddWindowCommandExecute() => true;
 
@@ -87,6 +97,36 @@ namespace SomeShopWPF.ViewModels
             }
 
             OnPropertyChanged(nameof(ClientsList));
+        }
+
+        private void SetPurchasesTable()
+        {
+            string query = "SELECT * FROM Purchases WHERE Email = @email";
+            string con = "Host=localhost;Port=5433;Username=postgres;Password=QuiteMissHome13.;Database=Shop";
+
+            try
+            {
+                using(NpgsqlConnection connection = new NpgsqlConnection(con))
+                {
+                    connection.Open();
+                    NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                    command.Parameters.Add(new NpgsqlParameter("@email", _selectedClient.Email));
+
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        _selectedClient.Purchases.Add(new Purchase(
+                            reader.GetInt32(0),
+                            reader.GetString(1),
+                            reader.GetInt32(2),
+                            reader.GetString(3)));
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+
+            }
         }
 
         private void DeleteClient(Client selectedClient)

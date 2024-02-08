@@ -9,6 +9,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListBox ItemsSource="{Binding Purchases}"/>
+        <GroupBox Header="Список покупок">
+
+            <DataGrid ItemsSource="{Binding Purchases}"
+                      AutoGenerateColumns="False"
+                      DockPanel.Dock="Top"
+                      HeadersVisibility="Column"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID"
+                                        Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Email"
+                                        Binding="{Binding Email}"/>
+                    <DataGridTextColumn Header="Код товара"
+                                        Binding="{Binding Code}"/>
+                    <DataGridTextColumn Header="Наименование товара"
+                                        Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </GroupBox>
     </Grid>
 </UserControl>
