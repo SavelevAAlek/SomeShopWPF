@@ -34,7 +34,7 @@ namespace SomeShopWPF.ViewModels
             set
             {
                 Set(ref _selectedClient, value); 
-                SetPurchasesTable();
+
             }
         }
         public ICommand DeleteCommand { get; set; }
