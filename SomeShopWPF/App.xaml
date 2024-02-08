@@ -5,8 +5,6 @@
              xmlns:vm="clr-namespace:SomeShopWPF.ViewModels"
              xmlns:l="clr-namespace:SomeShopWPF">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type vm:PurchasesViewModel}">
-            <v:PurchasesView/>
-        </DataTemplate>
+
     </Application.Resources>
 </Application>

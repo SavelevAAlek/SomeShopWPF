@@ -17,8 +17,8 @@ namespace SomeShopWPF.Models
         public string Email { get; set; }
         public List<Purchase> Purchases { get; set; }
 
-        public Client() { }
-        public Client(int id, string surname, string name, string patronymics, string phone, string email)
+        public Client() => Purchases = new List<Purchase>();
+        public Client(int id, string surname, string name, string patronymics, string phone, string email) : this()
         {
             Id = id;
             Surname = surname;
