@@ -21,6 +21,7 @@ namespace SomeShopWPF
             services.AddSingleton<MainWindowViewModel>();
             services.AddScoped<AuthViewModel>();
             services.AddSingleton<AddClientViewModel>();
+            services.AddSingleton<EditClientViewModel>();
 
             services.AddSingleton<IUserDialog, UserDialogService>();
             services.AddSingleton<IMessageBus, MessageBusService>();
@@ -51,6 +52,22 @@ namespace SomeShopWPF
                     var scope = s.CreateScope();
                     var model = s.GetRequiredService<AddClientViewModel>();
                     var window = new AddClientWindow { DataContext = model };
+                    model.DialogComplete += (_, _) => window.Close();
+                    window.Closed += (_, _) =>
+                    {
+                        var m = s.GetRequiredService<MainWindowViewModel>();
+                        m.SetClientTable();
+                        scope.Dispose();
+                    };
+                    return window;
+                });
+
+            services.AddTransient(
+                s =>
+                {
+                    var scope = s.CreateScope();
+                    var model = s.GetRequiredService<EditClientViewModel>();
+                    var window = new EditeClientWindow { DataContext = model };
                     model.DialogComplete += (_, _) => window.Close();
                     window.Closed += (_, _) =>
                     {

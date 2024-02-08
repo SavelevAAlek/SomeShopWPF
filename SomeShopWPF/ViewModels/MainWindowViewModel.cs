@@ -32,6 +32,7 @@ namespace SomeShopWPF.ViewModels
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenAddWindowCommand { get; set; }
         public ICommand ShowPurchasesCommand { get; set; }
+        public ICommand OpenEditClientCommand { get; set; }
 
         public MainWindowViewModel() { }
         public MainWindowViewModel(IUserDialog userDialog) : this()
@@ -41,6 +42,14 @@ namespace SomeShopWPF.ViewModels
             DeleteCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
             OpenAddWindowCommand = new LambdaCommand(OnOpenAddWindowCommandExecuted, CanOpenAddWindowCommandExecute);
             ShowPurchasesCommand = new LambdaCommand(OnShowPurchasesCommandExecuted, CanShowPurchasesCommandExecute);
+            OpenEditClientCommand = new LambdaCommand(OnOpenEditClientCommandExecuted, CanOpenEditClientCommandExecute);
+        }
+
+        private bool CanOpenEditClientCommandExecute() => _selectedClient != null ? true : false;
+
+        private void OnOpenEditClientCommandExecuted(object? obj)
+        {
+            _userDialog.OpenEditClientWindow(SelectedClient);
         }
 
         private bool CanShowPurchasesCommandExecute() => true;

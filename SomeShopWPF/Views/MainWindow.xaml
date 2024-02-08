@@ -63,12 +63,16 @@
                              MaxHeight="20">
                     
                     <Button Content="Добавить"
-                            Margin="0,0,20,0"
+                            Margin="20,0,20,0"
                             Command="{Binding OpenAddWindowCommand}"/>
                     
                     <Button Content="Удалить"
-                            Margin="20,0,0,0"
+                            Margin="20,0,20,0"
                             Command="{Binding DeleteCommand}"/>
+
+                    <Button Content="Редактировать"
+                            Margin="20,0,20,0"
+                            Command="{Binding OpenEditClientCommand}"/>
 
                 </UniformGrid>
                 

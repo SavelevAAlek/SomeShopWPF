@@ -17,13 +17,14 @@ namespace SomeShopWPF.ViewModels
         public Client NewClient { get => _newClient; set => Set(ref _newClient, value); }
 
         public ICommand AddClientCommand { get; set; }
-
         public AddClientViewModel(IUserDialog userDialog)
         {
             _newClient = new Client();
             _userDialog = userDialog;
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
         }
+
+        
 
         private bool CanAddClientCommandExecute()
         {

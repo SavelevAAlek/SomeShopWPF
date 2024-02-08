@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SomeShopWPF.Models;
+using SomeShopWPF.ViewModels;
+using SomeShopWPF.ViewModels.Base;
 using SomeShopWPF.Views;
 using System;
 using System.Windows;
@@ -62,6 +65,24 @@ namespace SomeShopWPF.Services.Implementations
         public void OpenExtraWindow(string message)
         {
             MessageBox.Show(message);
+        }
+
+        private EditeClientWindow? _editClientWindow;
+        public void OpenEditClientWindow(Client selectedClient)
+        {
+            if (_editClientWindow is { } window)
+            {
+                window.DataContext = new EditClientViewModel(selectedClient, this);
+                window.Show();
+                return;
+            }
+
+            window = _Services.GetRequiredService<EditeClientWindow>();
+            window.Closed += (_, _) => _editClientWindow = null;
+
+            _editClientWindow = window;
+            _editClientWindow.DataContext = new EditClientViewModel(selectedClient, this);
+            window.Show();
         }
     }
 }
