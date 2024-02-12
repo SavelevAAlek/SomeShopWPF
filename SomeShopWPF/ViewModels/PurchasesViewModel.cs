@@ -12,7 +12,7 @@ namespace SomeShopWPF.ViewModels
 {
     public class PurchasesViewModel : DialogViewModel
     {
-        string con = "Host=localhost;Username=postgres;Password=QuiteMissHome13.;Database=Shop";
+        string con = "Host=localhost;Username=postgres;Password=postgres;Database=Shop";
 
         private string _productToBuy;
         private readonly Client _client;
