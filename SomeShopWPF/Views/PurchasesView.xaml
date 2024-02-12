@@ -10,12 +10,19 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <GroupBox Header="Список покупок">
-            <DockPanel>
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                
                 <DataGrid ItemsSource="{Binding Purchases}"
-                      AutoGenerateColumns="False"
-                      DockPanel.Dock="Top"
-                      HeadersVisibility="Column"
-                      CanUserAddRows="False">
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="Column"
+                          CanUserAddRows="False"
+                          Grid.Row="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID"
                                         Binding="{Binding Id}"/>
@@ -29,12 +36,13 @@
             </DataGrid>
 
 
-                <GroupBox Header="Добавление покупки" DockPanel.Dock="Top">
+                <GroupBox Header="Добавление покупки" 
+                          Grid.Row="1">
                     <ComboBox ItemsSource="{Binding ProductNames}"
                               SelectedItem="{Binding ProductToBuy, UpdateSourceTrigger=PropertyChanged}"/>
                 </GroupBox>
                 
-                <UniformGrid DockPanel.Dock="Bottom"
+                <UniformGrid Grid.Row="2"
                              VerticalAlignment="Bottom"
                              Rows="1"
                              Margin="30,0"
@@ -43,14 +51,10 @@
                     <Button Content="Добавить"
                             Margin="20,0,20,0"
                             Command="{Binding AddPurchaseCommand}"/>
-                    
-                    <Button Content="Удалить"
-                            Margin="20,0,20,0"
-                            Command="{Binding OpenAddWindowCommand}"/>
 
                 </UniformGrid>
                 
-            </DockPanel>
+            </Grid>
 
         </GroupBox>
     </Grid>

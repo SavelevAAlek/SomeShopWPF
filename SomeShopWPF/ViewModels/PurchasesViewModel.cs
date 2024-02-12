@@ -12,20 +12,24 @@ namespace SomeShopWPF.ViewModels
 {
     public class PurchasesViewModel : DialogViewModel
     {
-        string con = "Host=localhost;Port=5433;Username=postgres;Password=QuiteMissHome13.;Database=Shop";
+        string con = "Host=localhost;Username=postgres;Password=QuiteMissHome13.;Database=Shop";
 
         private string _productToBuy;
         private readonly Client _client;
         private readonly IUserDialog _userDialog;
 
+        private ObservableCollection<Purchase> _purchases;
+
         public string ProductToBuy { get => _productToBuy; set => Set(ref _productToBuy, value); } 
         public List<string> ProductNames { get; set; } = new List<string>();
-        public IEnumerable<Purchase> Purchases { get => _client.Purchases; }
+        public ObservableCollection<Purchase> Purchases { get => _purchases; set => Set(ref _purchases, value); }
 
         public ICommand AddPurchaseCommand { get; set; }
         public PurchasesViewModel(Client selectedClient, IUserDialog userDialog)
         {
-
+            _client = selectedClient;
+            _purchases = new ObservableCollection<Purchase>(_client.Purchases);  
+            _userDialog = userDialog;
             string query = "SELECT product_name FROM products_id";
             try
             {
@@ -44,11 +48,7 @@ namespace SomeShopWPF.ViewModels
             {
                 _userDialog.OpenExtraWindow(ex.Message);
             }
-
-
-
-            _userDialog = userDialog;
-            _client = selectedClient;
+            
             SetPurchasesTable();
             AddPurchaseCommand = new LambdaCommand(OnAddPurchaseCommandExecuted, CanAddPurchaseCommandExecute);
         }
@@ -76,10 +76,12 @@ namespace SomeShopWPF.ViewModels
                 }
             }
             catch (Exception ex) { _userDialog.OpenExtraWindow(ex.Message); }
+            finally { SetPurchasesTable(); OnPropertyChanged(nameof(Purchases)); }
         }
 
         private void SetPurchasesTable()
         {
+            Purchases = new ObservableCollection<Purchase>();
             string query = "SELECT pur.Id, pur.Email, prod.Id, prod.product_name" +
                            "\nFROM Purchases AS pur" +
                            "\nJOIN products_id as prod" +
@@ -97,7 +99,7 @@ namespace SomeShopWPF.ViewModels
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        _client.Purchases.Add(new Purchase(
+                            Purchases.Add(new Purchase(
                             reader.GetInt32(0),
                             reader.GetString(1),
                             reader.GetInt32(2),
