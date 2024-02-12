@@ -20,5 +20,6 @@ namespace SomeShopWPF.Models
             Code = code;
             Name = name;
         }
+
     }
 }

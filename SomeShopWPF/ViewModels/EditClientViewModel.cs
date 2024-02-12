@@ -15,33 +15,16 @@ namespace SomeShopWPF.ViewModels
 {
     public class EditClientViewModel : DialogViewModel
     {
-        private string _surname;
-        private string _name;
-        private string _patronymics;
-        private string _phone;
-        private string _email;
-
-        public string Surname { get => _surname; set => Set(ref _surname, value); }
-        public string Name { get => _name; set => Set(ref _name, value); }
-        public string Patronymics { get => _patronymics; set => Set(ref _patronymics, value); }
-        public string Phone { get => _phone; set => Set(ref _phone, value); }
-
-        public string Email { get => _email; set => Set(ref _email, value); }
-
         private readonly IUserDialog _userDialog;
         private string _conStr = File.ReadAllText(@"..\..\..\Resources\MSSQLcon_str.txt");
         private Client _selectedClient;
 
+        public Client SelectedClient { get => _selectedClient; set => Set(ref _selectedClient, value); }
+
         public ICommand EditClientCommand { get; set; }
         public EditClientViewModel(Client selectedClient, IUserDialog userDialog)
         {
-            _selectedClient = selectedClient;
-            _surname = selectedClient.Surname;
-            _name = selectedClient.Name;
-            _patronymics = selectedClient.Patronymics;
-            _phone = selectedClient.Phone;
-            _email = selectedClient.Email;
-
+            SelectedClient = new Client(selectedClient);
             EditClientCommand = new LambdaCommand(OnEditClientCommandExecuted, CanEditClientCommandExecute);
             _userDialog = userDialog;
         }
@@ -71,12 +54,12 @@ namespace SomeShopWPF.ViewModels
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddRange(new SqlParameter[6]
                     {
-                        new SqlParameter("@id", _selectedClient.Id),
-                        new SqlParameter("@surname", Surname),
-                        new SqlParameter("@name", Name),
-                        new SqlParameter("@patronymics", Patronymics),
-                        new SqlParameter("@phone", Phone),
-                        new SqlParameter("@email", Email),
+                        new SqlParameter("@id", SelectedClient.Id),
+                        new SqlParameter("@surname", SelectedClient.Surname),
+                        new SqlParameter("@name", SelectedClient.Name),
+                        new SqlParameter("@patronymics", SelectedClient.Patronymics),
+                        new SqlParameter("@phone", SelectedClient.Phone),
+                        new SqlParameter("@email", SelectedClient.Email),
                     });
 
                     command.ExecuteNonQuery();
@@ -86,13 +69,9 @@ namespace SomeShopWPF.ViewModels
             {
                 _userDialog.OpenExtraWindow(ex.Message);
             }
-            finally
-            {
 
-                OnDialogComplete(EventArgs.Empty);
-            }
-
-
+            _userDialog.OpenExtraWindow("Редактирование выполнено");
+            OnDialogComplete(EventArgs.Empty);
         }
     }
 }

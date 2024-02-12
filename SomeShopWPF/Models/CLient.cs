@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SomeShopWPF.Models
 {
@@ -15,7 +16,7 @@ namespace SomeShopWPF.Models
         public string Patronymics { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public List<Purchase> Purchases { get; set; }
+        public ICollection<Purchase> Purchases { get; set; }
 
         public Client() => Purchases = new List<Purchase>();
         public Client(int id, string surname, string name, string patronymics, string phone, string email) : this()
@@ -28,5 +29,14 @@ namespace SomeShopWPF.Models
             Email = email;
         }
 
+        public Client(Client client)
+        {
+            Id = client.Id;
+            Surname = client.Surname;
+            Name = client.Name;
+            Patronymics = client.Patronymics;
+            Phone = client.Phone;
+            Email = client.Email;
+        }
     }
 }

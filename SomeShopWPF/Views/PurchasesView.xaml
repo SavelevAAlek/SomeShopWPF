@@ -10,8 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <GroupBox Header="Список покупок">
-
-            <DataGrid ItemsSource="{Binding Purchases}"
+            <DockPanel>
+                <DataGrid ItemsSource="{Binding Purchases}"
                       AutoGenerateColumns="False"
                       DockPanel.Dock="Top"
                       HeadersVisibility="Column"
@@ -27,6 +27,30 @@
                                         Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
+
+
+                <GroupBox Header="Добавление покупки" DockPanel.Dock="Top">
+                    <ComboBox ItemsSource="{Binding ProductNames}"
+                              SelectedItem="{Binding ProductToBuy, UpdateSourceTrigger=PropertyChanged}"/>
+                </GroupBox>
+                
+                <UniformGrid DockPanel.Dock="Bottom"
+                             VerticalAlignment="Bottom"
+                             Rows="1"
+                             Margin="30,0"
+                             MaxHeight="20">
+
+                    <Button Content="Добавить"
+                            Margin="20,0,20,0"
+                            Command="{Binding AddPurchaseCommand}"/>
+                    
+                    <Button Content="Удалить"
+                            Margin="20,0,20,0"
+                            Command="{Binding OpenAddWindowCommand}"/>
+
+                </UniformGrid>
+                
+            </DockPanel>
 
         </GroupBox>
     </Grid>

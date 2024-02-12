@@ -42,7 +42,7 @@ namespace SomeShopWPF.ViewModels
 
         public ViewModel ExtraView { get => _extraView; set => Set(ref _extraView, value); }
         public ICommand ShowPurchasesCommand { get; set; }
-        private void OnShowPurchasesCommandExecuted(object? obj) => ExtraView = new PurchasesViewModel(_selectedClient);
+        private void OnShowPurchasesCommandExecuted(object? obj) => ExtraView = new PurchasesViewModel(_selectedClient, _userDialog);
         private bool CanShowPurchasesCommandExecute() => _selectedClient != null ? true : false;
         public ICommand OpenEditClientCommand { get; set; }
 
