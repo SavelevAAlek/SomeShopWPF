@@ -7,12 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Configuration;
 
 namespace SomeShopWPF.ViewModels
 {
     public class PurchasesViewModel : DialogViewModel
     {
-        string con = "Host=localhost;Username=postgres;Password=postgres;Database=Shop";
+        string con = ConfigurationManager.ConnectionStrings["PGSQLConnection"].ConnectionString;
 
         private string _productToBuy;
         private readonly Client _client;
