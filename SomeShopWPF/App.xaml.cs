@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SomeShopWPF.Models;
 using SomeShopWPF.Services;
 using SomeShopWPF.Services.Implementations;
 using SomeShopWPF.ViewModels;
 using SomeShopWPF.Views;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace SomeShopWPF
@@ -20,11 +22,11 @@ namespace SomeShopWPF
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddScoped<AuthViewModel>();
-            services.AddSingleton<AddClientViewModel>();
-            services.AddSingleton<EditClientViewModel>();
+            services.AddScoped<AddClientViewModel>();
+            services.AddScoped<EditClientViewModel>();
 
             services.AddSingleton<IUserDialog, UserDialogService>();
-            services.AddSingleton<IMessageBus, MessageBusService>();
+            services.AddSingleton<IRepository, Repository>();
 
             services.AddTransient(
                 s =>
@@ -56,7 +58,8 @@ namespace SomeShopWPF
                     window.Closed += (_, _) =>
                     {
                         var m = s.GetRequiredService<MainWindowViewModel>();
-                        m.SetClientTable();
+                        var r = s.GetRequiredService<IRepository>();
+                        m.ClientsList = new ObservableCollection<Client>(r.GetClients());
                         scope.Dispose();
                     };
                     return window;
@@ -72,7 +75,8 @@ namespace SomeShopWPF
                     window.Closed += (_, _) =>
                     {
                         var m = s.GetRequiredService<MainWindowViewModel>();
-                        m.SetClientTable();
+                        var r = s.GetRequiredService<IRepository>();
+                        m.ClientsList = new ObservableCollection<Client>(r.GetClients());
                         scope.Dispose();
                     };
                     return window;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SomeShopWPF.Models;
 using SomeShopWPF.ViewModels;
-using SomeShopWPF.ViewModels.Base;
 using SomeShopWPF.Views;
 using System;
 using System.Windows;
@@ -70,9 +69,10 @@ namespace SomeShopWPF.Services.Implementations
         private EditeClientWindow? _editClientWindow;
         public void OpenEditClientWindow(Client selectedClient)
         {
+            var s = _Services.GetRequiredService<IRepository>();
             if (_editClientWindow is { } window)
-            {
-                window.DataContext = new EditClientViewModel(selectedClient, this);
+            {               
+                window.DataContext = new EditClientViewModel(selectedClient, s);
                 window.Show();
                 return;
             }
@@ -81,7 +81,7 @@ namespace SomeShopWPF.Services.Implementations
             window.Closed += (_, _) => _editClientWindow = null;
 
             _editClientWindow = window;
-            _editClientWindow.DataContext = new EditClientViewModel(selectedClient, this);
+            _editClientWindow.DataContext = new EditClientViewModel(selectedClient, s);
             window.Show();
         }
     }

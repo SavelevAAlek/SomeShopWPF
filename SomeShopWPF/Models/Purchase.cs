@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SomeShopWPF.Models
+﻿namespace SomeShopWPF.Models
 {
     public class Purchase
     {
@@ -20,6 +14,5 @@ namespace SomeShopWPF.Models
             Code = code;
             Name = name;
         }
-
     }
 }

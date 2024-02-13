@@ -1,5 +1,4 @@
 ﻿using SomeShopWPF.Models;
-using SomeShopWPF.ViewModels.Base;
 
 namespace SomeShopWPF.Services
 {

@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SomeShopWPF.ViewModels"
         xmlns:v="clr-namespace:SomeShopWPF.Views"
-        xmlns:l="clr-namespace:SomeShopWPF"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" x:Name="wind">
+        Title="MainWindow" Height="450" Width="1000" x:Name="main">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:PurchasesViewModel}">
@@ -32,7 +31,7 @@
                           HeadersVisibility="Column"
                           SelectedItem="{Binding SelectedClient}"
                           CanUserAddRows="False"
-                          Tag="{Binding ElementName=wind}">
+                          Tag="{Binding ElementName=main}">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Просмотреть покупки"

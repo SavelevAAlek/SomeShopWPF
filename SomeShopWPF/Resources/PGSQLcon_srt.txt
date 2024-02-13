@@ -1,1 +1,0 @@
-"Host=localhost;Username=postgres;Password=QuiteMissHome13;Database=Shop"
