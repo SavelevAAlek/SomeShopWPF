@@ -25,7 +25,7 @@ namespace SomeShopWPF.ViewModels
         private void OnAddPurchaseCommandExecuted(object? obj)
         {
             _repository.AddPurchase(_client, _productToBuy);
-            _purchases = new ObservableCollection<Purchase>(_repository.GetPurchases(_client));
+            _purchases = new ObservableCollection<Purchase>(_repository.GetPurchases(_client).Result);
             OnPropertyChanged(nameof(Purchases));
         }
         #endregion
@@ -36,7 +36,7 @@ namespace SomeShopWPF.ViewModels
             _repository = repository;
             _client = selectedClient;
             ProductNames = _repository.GetProducts();
-            _purchases = new ObservableCollection<Purchase>(_repository.GetPurchases(_client));
+            _purchases = new ObservableCollection<Purchase>(_repository.GetPurchases(_client).Result);
 
             AddPurchaseCommand = new LambdaCommand(OnAddPurchaseCommandExecuted, CanAddPurchaseCommandExecute);
         }

@@ -10,10 +10,16 @@ namespace SomeShopWPF.Services.Implementations
     internal class UserDialogService : IUserDialog
     {
         private readonly IServiceProvider _Services;
+        private MainWindow? _mainWindow;
+        private AddClientWindow? _addClientWindow;
+        private AuthWindow? _authWindow;
+        private EditeClientWindow? _editClientWindow;
 
         public UserDialogService(IServiceProvider Services) => _Services = Services;
 
-        private MainWindow? _mainWindow;
+        /// <summary>
+        /// Открытие главного окна
+        /// </summary>
         public void OpenMainWindow()
         {
             if (_mainWindow is { } window)
@@ -29,7 +35,9 @@ namespace SomeShopWPF.Services.Implementations
             window.Show();
         }
 
-        private AddClientWindow? _addClientWindow;
+        /// <summary>
+        /// Открытие окна с добавлением клиента
+        /// </summary>
         public void OpenAddClientWindow()
         {
             if (_addClientWindow is { } window)
@@ -45,7 +53,9 @@ namespace SomeShopWPF.Services.Implementations
             window.Show();
         }
 
-        private AuthWindow? _authWindow;
+        /// <summary>
+        /// Открытие окна авторизации
+        /// </summary>
         public void OpenAuthWindow()
         {
             if (_authWindow is { } window)
@@ -61,12 +71,19 @@ namespace SomeShopWPF.Services.Implementations
             window.Show();
         }
 
+        /// <summary>
+        /// Открытие окна с сообщениями о выполнении команды
+        /// </summary>
+        /// <param name="message"></param>
         public void OpenExtraWindow(string message)
         {
             MessageBox.Show(message);
         }
 
-        private EditeClientWindow? _editClientWindow;
+        /// <summary>
+        /// Открытие окна редактирования клиента
+        /// </summary>
+        /// <param name="selectedClient"></param>
         public void OpenEditClientWindow(Client selectedClient)
         {
             var s = _Services.GetRequiredService<IRepository>();

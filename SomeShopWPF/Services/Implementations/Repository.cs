@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace SomeShopWPF.Services.Implementations
 {
@@ -15,6 +16,10 @@ namespace SomeShopWPF.Services.Implementations
 
         public Repository(IUserDialog userDialog) => _userDialog = userDialog;
 
+        /// <summary>
+        /// Добавление клиента
+        /// </summary>
+        /// <param name="client"></param>
         public void AddClient(Client client)
         {
             var query = "INSERT INTO Clients (Surname, \"Name\", Patronymics, Phone, Email)" +
@@ -43,6 +48,11 @@ namespace SomeShopWPF.Services.Implementations
             catch (SqlException ex) { _userDialog.OpenExtraWindow(ex.Message); }
         }
 
+        /// <summary>
+        /// Добавление покупки
+        /// </summary>
+        /// <param name="selectedClient"></param>
+        /// <param name="product"></param>
         public void AddPurchase(Client selectedClient, string product)
         {
             string query = "INSERT INTO purchases (email, product_name)" +
@@ -66,6 +76,10 @@ namespace SomeShopWPF.Services.Implementations
             catch (Exception ex) { _userDialog.OpenExtraWindow(ex.Message); }
         }
 
+        /// <summary>
+        /// Удаление клиента
+        /// </summary>
+        /// <param name="selectedClient"></param>
         public void Delete(Client selectedClient)
         {
             var query = $"DELETE FROM Clients WHERE Email = @email";
@@ -80,6 +94,10 @@ namespace SomeShopWPF.Services.Implementations
             }
         }
 
+        /// <summary>
+        /// Редактирование клиента
+        /// </summary>
+        /// <param name="selectedClient"></param>
         public void EditClient(Client selectedClient)
         {
             var query = "UPDATE Clients " +
@@ -112,6 +130,10 @@ namespace SomeShopWPF.Services.Implementations
             _userDialog.OpenExtraWindow("Редактирование выполнено");
         }
 
+        /// <summary>
+        /// Заполнение DataGrid клиентами
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Client> GetClients()
         {
             string query = "SELECT * FROM Clients";
@@ -137,6 +159,10 @@ namespace SomeShopWPF.Services.Implementations
             }
         }
 
+        /// <summary>
+        /// Заполнение списка доступных продуктов
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetProducts()
         {
             string query = "SELECT product_name FROM products_id";
@@ -160,7 +186,12 @@ namespace SomeShopWPF.Services.Implementations
             return products;
         }
 
-        public List<Purchase> GetPurchases(Client selectedClient)
+        /// <summary>
+        /// Заполнение списка покупок
+        /// </summary>
+        /// <param name="selectedClient"></param>
+        /// <returns></returns>
+        public async Task<List<Purchase>> GetPurchases(Client selectedClient)
         {
             string query = "SELECT pur.Id, pur.Email, prod.Id, prod.product_name" +
                            "\nFROM Purchases AS pur" +
@@ -174,7 +205,7 @@ namespace SomeShopWPF.Services.Implementations
             {
                 using (NpgsqlConnection connection = new NpgsqlConnection(_pgsql_con))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
                     NpgsqlCommand command = new NpgsqlCommand(query, connection);
                     command.Parameters.Add(new NpgsqlParameter("@email", selectedClient.Email));
                     

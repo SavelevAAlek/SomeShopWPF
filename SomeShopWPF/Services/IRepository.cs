@@ -1,5 +1,6 @@
 ﻿using SomeShopWPF.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SomeShopWPF.Services
 {
@@ -7,7 +8,7 @@ namespace SomeShopWPF.Services
     {
         IEnumerable<Client> GetClients();
         void Delete(Client selectedClient);
-        List<Purchase> GetPurchases(Client selectedClient);
+        Task<List<Purchase>> GetPurchases(Client selectedClient);
         void AddPurchase(Client selectedClient, string product);
         void AddClient(Client client);
         List<string> GetProducts();
