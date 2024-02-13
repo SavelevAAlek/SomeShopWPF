@@ -55,6 +55,10 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
+                <TextBlock Text="Чтобы увидеть информацию о покупках, щёлкните правой кнопкой мыши по клиенту"
+                           Foreground="Gray"
+                           FontSize="10"/>
+
                 <UniformGrid DockPanel.Dock="Bottom"
                              VerticalAlignment="Bottom"
                              Rows="1"
