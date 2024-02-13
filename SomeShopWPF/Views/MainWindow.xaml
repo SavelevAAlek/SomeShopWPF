@@ -7,7 +7,7 @@
         xmlns:v="clr-namespace:SomeShopWPF.Views"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000" x:Name="main">
+        Title="MainWindow" Height="450" Width="800" x:Name="main">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:PurchasesViewModel}">
@@ -57,7 +57,8 @@
 
                 <TextBlock Text="Чтобы увидеть информацию о покупках, щёлкните правой кнопкой мыши по клиенту"
                            Foreground="Gray"
-                           FontSize="10"/>
+                           FontSize="10"
+                           DockPanel.Dock="Top"/>
 
                 <UniformGrid DockPanel.Dock="Bottom"
                              VerticalAlignment="Bottom"
